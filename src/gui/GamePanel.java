@@ -78,7 +78,6 @@ public class GamePanel extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawGrid(g);
-        player.drawPlayer(g);
         objectManager.drawObjects(g);
     }
 

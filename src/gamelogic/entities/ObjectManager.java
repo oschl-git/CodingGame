@@ -39,6 +39,7 @@ public class ObjectManager {
                 }
             }
         }
+        gamePanel.getPlayer().drawPlayer(g);
     }
 
     /**
