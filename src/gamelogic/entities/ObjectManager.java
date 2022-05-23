@@ -3,43 +3,27 @@ package gamelogic.entities;
 import gui.GamePanel;
 import java.awt.*;
 
+/**
+ * This class handles drawing objects on the screen, such as walls.
+ */
 public class ObjectManager {
-    int[][] objects;
     GamePanel gamePanel;
 
     public ObjectManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        objects = new int[][]{
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 3, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
-                {1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        };
     }
 
     /**
      * Draws objects like walls, enemies, etc. on the screen
      */
     public void drawObjects(Graphics g){
-        for (int i = 0; i < objects.length; i++) {
-            for (int j = 0; j < objects[i].length; j++) {
-                switch (objects[i][j]) {
+        for (int i = 0; i < gamePanel.objects.length; i++) {
+            for (int j = 0; j < gamePanel.objects[i].length; j++) {
+                switch (gamePanel.objects[i][j]) {
                     case 1 -> drawWall(g, j, i);
                 }
             }
         }
-        gamePanel.getPlayer().drawPlayer(g);
     }
 
     /**

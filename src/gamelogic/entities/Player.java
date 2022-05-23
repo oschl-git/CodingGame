@@ -11,10 +11,12 @@ public class Player {
 
     enum directions {UP, DOWN, LEFT, RIGHT}
 
+    GamePanel gamePanel;
     ObjectManager objectManager;
 
     //region Constructors, getters, setters
-    public Player (ObjectManager objectManager) {
+    public Player (GamePanel gamePanel, ObjectManager objectManager) {
+        this.gamePanel = gamePanel;
         this.objectManager = objectManager;
     }
 
@@ -76,7 +78,7 @@ public class Player {
             case LEFT -> x--;
             case RIGHT -> x++;
         }
-        objectManager.objects[x][y] = 3;
+        gamePanel.objects[x][y] = 3;
     }
 
     public void turnRight() {
@@ -94,6 +96,17 @@ public class Player {
             case DOWN -> direction = directions.RIGHT;
             case LEFT -> direction = directions.DOWN;
             case RIGHT -> direction = directions.UP;
+        }
+    }
+
+    public void getPosition() {
+        for (int i = 0; i < gamePanel.objects.length; i++) {
+            for (int j = 0; j < gamePanel.objects[i].length; j++) {
+                if (gamePanel.objects[i][j] == 3) {
+                    this.x = j;
+                    this.y = i;
+                }
+            }
         }
     }
 

@@ -1,3 +1,4 @@
+import gamelogic.LevelLoader;
 import gui.GamePanel;
 import gui.GameWindow;
 

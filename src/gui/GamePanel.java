@@ -1,5 +1,6 @@
 package gui;
 
+import gamelogic.LevelLoader;
 import gamelogic.entities.Player;
 import gamelogic.entities.ObjectManager;
 
@@ -8,17 +9,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is the root of all game elements and displays the game.
+ */
 public class GamePanel extends JPanel implements ActionListener {
     public static final int UNIT_SIZE = 30;
     static final int WIDTH = 15;
     static final int HEIGHT = 15;
     static final int WIDTH_PX = WIDTH * UNIT_SIZE;
     static final int HEIGHT_PX = HEIGHT * UNIT_SIZE;
-    GameWindow gameWindow;
 
-    int moveDelay;;
+
+    int moveDelay;
+    GameWindow gameWindow;
     ObjectManager objectManager = new ObjectManager(this);
-    Player player = new Player(objectManager);
+    Player player = new Player(this, objectManager);
+    LevelLoader levelLoader = new LevelLoader();
+    public int[][] objects;
 
     Timer timer;
 
@@ -50,6 +57,8 @@ public class GamePanel extends JPanel implements ActionListener {
     //endregion
 
     public void startGame() {
+        objects = levelLoader.readLevelFile(1);
+        player.getPosition();
         this.moveDelay = gameWindow.getMoveDelay();
         timer = new Timer(moveDelay, this);
         timer.start();
@@ -79,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         drawGrid(g);
         objectManager.drawObjects(g);
+        player.drawPlayer(g);
     }
 
     /**
