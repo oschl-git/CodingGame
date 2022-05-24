@@ -1,7 +1,11 @@
 package gui;
 
+import gamelogic.CodeManager;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameWindow extends JFrame {
 
@@ -11,6 +15,7 @@ public class GameWindow extends JFrame {
     private JButton commandHelpButton;
     private JButton executeButton;
     private JSlider moveDelaySlider;
+    CodeManager codeManager;
 
     //region Constructors, getters, setters
     public GameWindow() {
@@ -22,6 +27,14 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(window);
         gamePanel.setGameWindow(this);
+        this.codeManager = new CodeManager(gamePanel, commandField);
+
+        executeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                codeManager.getCommands();
+            }
+        });
     }
 
     public GamePanel getGamePanel() {
