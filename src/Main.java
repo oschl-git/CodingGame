@@ -6,6 +6,6 @@ public class Main {
     public static void main(String[] args) {
         GameWindow gameWindow = new GameWindow();
         GamePanel gamePanel = gameWindow.getGamePanel();
-        gamePanel.startGame();
+        gamePanel.loadLevel();
     }
 }

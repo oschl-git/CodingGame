@@ -10,13 +10,15 @@ import java.awt.*;
 public class Player {
     int x = 0;
     int y = 0;
-    directions direction = directions.DOWN;
+    directions direction = directions.RIGHT;
+
     enum directions {UP, DOWN, LEFT, RIGHT}
+
     GamePanel gamePanel;
     ObjectManager objectManager;
 
     //region Constructors, getters, setters
-    public Player (GamePanel gamePanel, ObjectManager objectManager) {
+    public Player(GamePanel gamePanel, ObjectManager objectManager) {
         this.gamePanel = gamePanel;
         this.objectManager = objectManager;
     }
@@ -104,6 +106,7 @@ public class Player {
      * Gets correct player position from the objects 2D array.
      */
     public void getPositionFromArray() {
+        direction = directions.RIGHT;
         for (int i = 0; i < gamePanel.objects.length; i++) {
             for (int j = 0; j < gamePanel.objects[i].length; j++) {
                 if (gamePanel.objects[i][j] == 3) {

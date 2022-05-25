@@ -1,6 +1,7 @@
 package gamelogic.entities;
 
 import gui.GamePanel;
+
 import java.awt.*;
 
 /**
@@ -16,7 +17,7 @@ public class ObjectManager {
     /**
      * Draws objects like walls, enemies, etc. on the screen
      */
-    public void drawObjects(Graphics g){
+    public void drawObjects(Graphics g) {
         for (int i = 0; i < gamePanel.objects.length; i++) {
             for (int j = 0; j < gamePanel.objects[i].length; j++) {
                 switch (gamePanel.objects[i][j]) {
@@ -28,6 +29,7 @@ public class ObjectManager {
 
     /**
      * Draws a single wall on the game panel.
+     *
      * @param x desired x coordinate
      * @param y desired y coordinate
      */
@@ -44,11 +46,11 @@ public class ObjectManager {
         //Horizontal lines
         g2D.drawLine(x * GamePanel.getUnitSize(),
                 y * GamePanel.getUnitSize() + 14,
-                (x+1) * GamePanel.getUnitSize(),
+                (x + 1) * GamePanel.getUnitSize(),
                 y * GamePanel.getUnitSize() + 14);
         g2D.drawLine(x * GamePanel.getUnitSize(),
                 y * GamePanel.getUnitSize() + 29,
-                (x+1) * GamePanel.getUnitSize(),
+                (x + 1) * GamePanel.getUnitSize(),
                 y * GamePanel.getUnitSize() + 29);
 
         //Vertical lines

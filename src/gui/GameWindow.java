@@ -30,12 +30,12 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setContentPane(window);
         gamePanel.setGameWindow(this);
-        this.codeManager = new CodeManager(gamePanel, commandField);
+        this.codeManager = new CodeManager(gamePanel.getPlayer(), commandField);
 
         executeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                codeManager.getCommands();
+                gamePanel.startRound();
             }
         });
     }
@@ -46,6 +46,7 @@ public class GameWindow extends JFrame {
 
     /**
      * Getter that returns a correct value based on a slider that's controlled by the user.
+     *
      * @return move delay for the timer
      */
     public int getMoveDelay() {

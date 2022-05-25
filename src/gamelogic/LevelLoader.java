@@ -12,6 +12,7 @@ public class LevelLoader {
 
     /**
      * This method loads a specific level.
+     *
      * @param level desired level number
      * @return 2D array of the level
      */

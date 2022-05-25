@@ -1,8 +1,8 @@
 package gui;
 
 import gamelogic.LevelLoader;
-import gamelogic.entities.Player;
 import gamelogic.entities.ObjectManager;
+import gamelogic.entities.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +27,10 @@ public class GamePanel extends JPanel implements ActionListener {
     LevelLoader levelLoader = new LevelLoader();
     public int[][] objects;
     Timer timer;
+
+    int level = 1;
+    int tick = 0;
+    boolean gameRunning = false;
 
     //region Constructors, getters, setters
     public GamePanel() {
@@ -55,8 +59,17 @@ public class GamePanel extends JPanel implements ActionListener {
 
     //endregion
 
-    public void startGame() {
-        objects = levelLoader.readLevelFile(1);
+    public void loadLevel() {
+        objects = levelLoader.readLevelFile(level);
+        player.getPositionFromArray();
+        repaint();
+    }
+
+    public void startRound() {
+        tick = 0;
+        gameWindow.codeManager.getCommands();
+        objects = levelLoader.readLevelFile(level);
+        gameRunning = true;
         player.getPositionFromArray();
         this.moveDelay = gameWindow.getMoveDelay();
         timer = new Timer(moveDelay, this);
@@ -72,10 +85,15 @@ public class GamePanel extends JPanel implements ActionListener {
         this.moveDelay = gameWindow.getMoveDelay();
         timer.setDelay(moveDelay);
 
-        player.movePlayer();
-        player.turnRight();
+        if (gameWindow.codeManager.getCommandArray().size() == tick) {
+            gameRunning = false;
+            timer.stop();
+            tick = 0;
+        }
 
+        if (gameRunning) gameWindow.codeManager.executeCommand(tick);
         repaint();
+        tick++;
     }
 
     /**
@@ -95,8 +113,8 @@ public class GamePanel extends JPanel implements ActionListener {
      */
     public void drawGrid(Graphics g) {
         g.setColor(Color.gray);
-        for (int i = 0; i < WIDTH; i++) g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, HEIGHT_PX);
-        for (int i = 0; i < HEIGHT; i++ ) g.drawLine(0, i*UNIT_SIZE, WIDTH_PX, i*UNIT_SIZE);
+        for (int i = 0; i < WIDTH; i++) g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, HEIGHT_PX);
+        for (int i = 0; i < HEIGHT; i++) g.drawLine(0, i * UNIT_SIZE, WIDTH_PX, i * UNIT_SIZE);
     }
 
 }
