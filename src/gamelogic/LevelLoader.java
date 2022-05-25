@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * This class handles loading levels from files.
+ * This class handles loading levels from txt files.
  */
 public class LevelLoader {
     final public static String LEVEL_PATH = "levels/X.txt";

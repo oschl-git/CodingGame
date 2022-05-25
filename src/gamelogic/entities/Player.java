@@ -4,13 +4,14 @@ import gui.GamePanel;
 
 import java.awt.*;
 
+/**
+ * This is the player class. It handles movement, rendering, etc.
+ */
 public class Player {
-    int x = 3;
-    int y = 3;
+    int x = 0;
+    int y = 0;
     directions direction = directions.DOWN;
-
     enum directions {UP, DOWN, LEFT, RIGHT}
-
     GamePanel gamePanel;
     ObjectManager objectManager;
 
@@ -99,12 +100,16 @@ public class Player {
         }
     }
 
-    public void getPosition() {
+    /**
+     * Gets correct player position from the objects 2D array.
+     */
+    public void getPositionFromArray() {
         for (int i = 0; i < gamePanel.objects.length; i++) {
             for (int j = 0; j < gamePanel.objects[i].length; j++) {
                 if (gamePanel.objects[i][j] == 3) {
                     this.x = j;
                     this.y = i;
+                    return;
                 }
             }
         }

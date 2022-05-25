@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This is the window class. Everything is displayed inside.
+ */
 public class GameWindow extends JFrame {
 
     private GamePanel gamePanel;
@@ -41,6 +44,10 @@ public class GameWindow extends JFrame {
         return gamePanel;
     }
 
+    /**
+     * Getter that returns a correct value based on a slider that's controlled by the user.
+     * @return move delay for the timer
+     */
     public int getMoveDelay() {
         return 500 - (moveDelaySlider.getValue() * 4);
     }

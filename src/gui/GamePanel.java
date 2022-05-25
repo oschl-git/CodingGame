@@ -26,7 +26,6 @@ public class GamePanel extends JPanel implements ActionListener {
     Player player = new Player(this, objectManager);
     LevelLoader levelLoader = new LevelLoader();
     public int[][] objects;
-
     Timer timer;
 
     //region Constructors, getters, setters
@@ -58,7 +57,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void startGame() {
         objects = levelLoader.readLevelFile(1);
-        player.getPosition();
+        player.getPositionFromArray();
         this.moveDelay = gameWindow.getMoveDelay();
         timer = new Timer(moveDelay, this);
         timer.start();
