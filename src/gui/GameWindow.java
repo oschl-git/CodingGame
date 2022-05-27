@@ -50,7 +50,7 @@ public class GameWindow extends JFrame {
      * @return move delay for the timer
      */
     public int getMoveDelay() {
-        return 500 - (moveDelaySlider.getValue() * 4);
+        return 600 - (moveDelaySlider.getValue() * 4);
     }
 
     //endregion

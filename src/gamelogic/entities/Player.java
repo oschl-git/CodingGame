@@ -12,7 +12,7 @@ public class Player {
     int y = 0;
     directions direction = directions.RIGHT;
 
-    enum directions {UP, DOWN, LEFT, RIGHT}
+    public static enum directions {UP, DOWN, LEFT, RIGHT}
 
     GamePanel gamePanel;
     ObjectManager objectManager;
@@ -75,13 +75,16 @@ public class Player {
     }
 
     public void movePlayer() {
+        if (isColliding()) return;
+
         switch (direction) {
             case UP -> y--;
             case DOWN -> y++;
             case LEFT -> x--;
             case RIGHT -> x++;
         }
-        gamePanel.objects[x][y] = 3;
+        checkVictory();
+        gamePanel.objects[y][x] = 3;
     }
 
     public void turnRight() {
@@ -102,6 +105,10 @@ public class Player {
         }
     }
 
+    public void shoot() {
+        gamePanel.setBullet(new Bullet(x, y, direction, gamePanel));
+    }
+
     /**
      * Gets correct player position from the objects 2D array.
      */
@@ -112,9 +119,42 @@ public class Player {
                 if (gamePanel.objects[i][j] == 3) {
                     this.x = j;
                     this.y = i;
+                    gamePanel.getObjectManager().startX = j;
+                    gamePanel.getObjectManager().startY = i;
                     return;
                 }
             }
+        }
+    }
+
+    /**
+     * Checks collision with walls
+     *
+     * @return true if no wall in front of player, else false
+     */
+    public boolean isColliding() {
+        switch (direction) {
+            case UP -> {
+                if (gamePanel.objects[y - 1][x] >= 1 && gamePanel.objects[y - 1][x] <= 2) return true;
+            }
+            case DOWN -> {
+                if (gamePanel.objects[y + 1][x] >= 1 && gamePanel.objects[y + 1][x] <= 2) return true;
+            }
+            case LEFT -> {
+                if (gamePanel.objects[y][x - 1] >= 1 && gamePanel.objects[y][x - 1] <= 2) return true;
+            }
+            case RIGHT -> {
+                if (gamePanel.objects[y][x + 1] >= 1 && gamePanel.objects[y][x + 1] <= 2) return true;
+            }
+        }
+        return false;
+    }
+
+    public void checkVictory() {
+        if (gamePanel.objects[y][x] == 4) {
+            gamePanel.stop();
+            gamePanel.increaseLevel();
+            gamePanel.loadLevel();
         }
     }
 

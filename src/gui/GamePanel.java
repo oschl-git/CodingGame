@@ -1,6 +1,7 @@
 package gui;
 
 import gamelogic.LevelLoader;
+import gamelogic.entities.Bullet;
 import gamelogic.entities.ObjectManager;
 import gamelogic.entities.Player;
 
@@ -24,9 +25,10 @@ public class GamePanel extends JPanel implements ActionListener {
     GameWindow gameWindow;
     ObjectManager objectManager = new ObjectManager(this);
     Player player = new Player(this, objectManager);
+    Bullet bullet = null;
     LevelLoader levelLoader = new LevelLoader();
     public int[][] objects;
-    Timer timer;
+    Timer timer = new Timer(moveDelay, this);
 
     int level = 1;
     int tick = 0;
@@ -53,8 +55,20 @@ public class GamePanel extends JPanel implements ActionListener {
         return player;
     }
 
+    public ObjectManager getObjectManager() {
+        return objectManager;
+    }
+
     public void setGameWindow(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
+    }
+
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
+
+    public void increaseLevel() {
+        level++;
     }
 
     //endregion
@@ -71,9 +85,15 @@ public class GamePanel extends JPanel implements ActionListener {
         objects = levelLoader.readLevelFile(level);
         gameRunning = true;
         player.getPositionFromArray();
+        repaint();
         this.moveDelay = gameWindow.getMoveDelay();
-        timer = new Timer(moveDelay, this);
-        timer.start();
+        timer.restart();
+    }
+
+    public void stop() {
+        gameRunning = false;
+        timer.stop();
+        tick = 0;
     }
 
     /**
@@ -85,13 +105,8 @@ public class GamePanel extends JPanel implements ActionListener {
         this.moveDelay = gameWindow.getMoveDelay();
         timer.setDelay(moveDelay);
 
-        if (gameWindow.codeManager.getCommandArray().size() == tick) {
-            gameRunning = false;
-            timer.stop();
-            tick = 0;
-        }
-
-        if (gameRunning) gameWindow.codeManager.executeCommand(tick);
+        if (gameWindow.codeManager.getCommandArray().size() == tick && bullet == null) stop();
+        if (gameRunning && gameWindow.codeManager.getCommandArray().size() > tick) gameWindow.codeManager.executeCommand(tick);
         repaint();
         tick++;
     }
@@ -106,6 +121,7 @@ public class GamePanel extends JPanel implements ActionListener {
         drawGrid(g);
         objectManager.drawObjects(g);
         player.drawPlayer(g);
+        if (bullet != null) bullet.moveAndDraw(g);
     }
 
     /**

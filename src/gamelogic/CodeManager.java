@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class CodeManager {
     Player player;
     JTextPane commandField;
-    enum commandTypes {WALK, TURN_RIGHT, TURN_LEFT, SHOOT, NEW_LINE};
+    enum commandTypes {WALK, TURN_RIGHT, TURN_LEFT, SHOOT, WAIT, NEW_LINE};
     ArrayList<commandTypes> commands = new ArrayList<commandTypes>();
 
     //region Constructors, getters, setters
@@ -33,6 +33,11 @@ public class CodeManager {
             case WALK -> player.movePlayer();
             case TURN_RIGHT -> player.turnRight();
             case TURN_LEFT -> player.turnLeft();
+            case SHOOT -> player.shoot();
+        }
+
+        if ((i+2 < commands.size() && (commands.get(i+1) == commandTypes.NEW_LINE))) {
+            commands.remove(i+1);
         }
     }
 
@@ -48,6 +53,7 @@ public class CodeManager {
             if (command.matches("walk(\\s)*(\\(\\d+\\))?")) singleCommand = commandTypes.WALK;
             else if (command.matches("turn_right(\\s)*(\\(\\d+\\))?")) singleCommand = commandTypes.TURN_RIGHT;
             else if (command.matches("turn_left(\\s)*(\\(\\d+\\))?")) singleCommand = commandTypes.TURN_LEFT;
+            else if (command.matches("wait(\\s)*(\\(\\d+\\))?")) singleCommand = commandTypes.WAIT;
             else if (command.matches("shoot(\\s)*(\\(\\d+\\))?")) singleCommand = commandTypes.SHOOT;
 
             int iterations = 1;
