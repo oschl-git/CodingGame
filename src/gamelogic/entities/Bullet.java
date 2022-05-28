@@ -18,34 +18,43 @@ public class Bullet {
         this.gamePanel = gamePanel;
     }
 
-    public void moveAndDraw(Graphics g) {
-        //Move
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void move() {
         switch (direction) {
             case UP -> y--;
             case DOWN -> y++;
             case LEFT -> x--;
             case RIGHT -> x++;
         }
+    }
+
+    public void draw(Graphics g) {
+        if (checkCollision()) return;
+
         int xPx = x * GamePanel.UNIT_SIZE;
         int yPx = y * GamePanel.UNIT_SIZE;
 
-        if (checkCollision()) return;
-
-        //Draw
         Graphics2D g2D = (Graphics2D) g;
-        g2D.setColor(Color.white);
+        g2D.setColor(Color.red);
         g2D.setStroke(new BasicStroke(4));
 
         switch (direction) {
-            case UP, DOWN -> g2D.drawLine(xPx + 15, yPx, xPx + 15, yPx + GamePanel.UNIT_SIZE);
-            default -> g2D.drawLine(xPx, yPx + 15, xPx + GamePanel.UNIT_SIZE, yPx + 15);
+            case UP, DOWN -> g2D.drawLine(xPx + 15, yPx + 4, xPx + 15, yPx + GamePanel.UNIT_SIZE -4);
+            default -> g2D.drawLine(xPx + 4, yPx + 15, xPx + GamePanel.UNIT_SIZE - 4, yPx + 15);
         }
     }
 
     public boolean checkCollision() {
         if (gamePanel.objects[y][x] == 2 || gamePanel.objects[y][x] == 1) {
             if (gamePanel.objects[y][x] == 2) gamePanel.objects[y][x] = 0;
-            gamePanel.setBullet(null);
+            gamePanel.removeBullet();
             return true;
         }
         return false;

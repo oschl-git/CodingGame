@@ -2,6 +2,7 @@ package gui;
 
 import gamelogic.LevelLoader;
 import gamelogic.entities.Bullet;
+import gamelogic.entities.Enemy;
 import gamelogic.entities.ObjectManager;
 import gamelogic.entities.Player;
 
@@ -9,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is the root of all game elements and displays the game.
@@ -26,6 +29,7 @@ public class GamePanel extends JPanel implements ActionListener {
     ObjectManager objectManager = new ObjectManager(this);
     Player player = new Player(this, objectManager);
     Bullet bullet = null;
+    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     LevelLoader levelLoader = new LevelLoader();
     public int[][] objects;
     Timer timer = new Timer(moveDelay, this);
@@ -63,8 +67,20 @@ public class GamePanel extends JPanel implements ActionListener {
         this.gameWindow = gameWindow;
     }
 
+    public Bullet getBullet() {
+        return bullet;
+    }
+
     public void setBullet(Bullet bullet) {
-        this.bullet = bullet;
+        if (this.bullet == null) this.bullet = bullet;
+    }
+
+    public void removeBullet() {
+        this.bullet = null;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 
     public void increaseLevel() {
@@ -74,18 +90,18 @@ public class GamePanel extends JPanel implements ActionListener {
     //endregion
 
     public void loadLevel() {
+        enemies.clear();
         objects = levelLoader.readLevelFile(level);
         player.getPositionFromArray();
+        objectManager.getEnemiesFromArray();
         repaint();
     }
 
     public void startRound() {
+        loadLevel();
         tick = 0;
         gameWindow.codeManager.getCommands();
-        objects = levelLoader.readLevelFile(level);
         gameRunning = true;
-        player.getPositionFromArray();
-        repaint();
         this.moveDelay = gameWindow.getMoveDelay();
         timer.restart();
     }
@@ -105,8 +121,20 @@ public class GamePanel extends JPanel implements ActionListener {
         this.moveDelay = gameWindow.getMoveDelay();
         timer.setDelay(moveDelay);
 
-        if (gameWindow.codeManager.getCommandArray().size() == tick && bullet == null) stop();
-        if (gameRunning && gameWindow.codeManager.getCommandArray().size() > tick) gameWindow.codeManager.executeCommand(tick);
+        if (gameWindow.codeManager.getCommandArray().size() <= tick && bullet == null) stop();
+
+        for (Enemy enemy: enemies) {
+            enemy.move();
+        }
+
+        player.checkDeath();
+
+        if (gameRunning && gameWindow.codeManager.getCommandArray().size() > tick) {
+            gameWindow.codeManager.executeCommand(tick);
+        }
+
+        if (bullet != null) bullet.move();
+
         repaint();
         tick++;
     }
@@ -121,7 +149,10 @@ public class GamePanel extends JPanel implements ActionListener {
         drawGrid(g);
         objectManager.drawObjects(g);
         player.drawPlayer(g);
-        if (bullet != null) bullet.moveAndDraw(g);
+        if (bullet != null) bullet.draw(g);
+        for (Enemy enemy: enemies) {
+            enemy.draw(g);
+        }
     }
 
     /**

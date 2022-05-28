@@ -121,5 +121,14 @@ public class ObjectManager {
         g.drawRect(x * GamePanel.getUnitSize(), y * GamePanel.getUnitSize(),
                 GamePanel.getUnitSize(), GamePanel.getUnitSize());
     }
+    public void getEnemiesFromArray() {
+        for (int i = 0; i < gamePanel.objects.length; i++) {
+            for (int j = 0; j < gamePanel.objects[i].length; j++) {
+                if (gamePanel.objects[i][j] == 5) {
+                    gamePanel.getEnemies().add(new Enemy(j, i, gamePanel));
+                }
+            }
+        }
+    }
 
 }

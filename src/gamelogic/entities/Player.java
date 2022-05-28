@@ -11,6 +11,7 @@ public class Player {
     int x = 0;
     int y = 0;
     directions direction = directions.RIGHT;
+    boolean dead = false;
 
     public static enum directions {UP, DOWN, LEFT, RIGHT}
 
@@ -36,6 +37,7 @@ public class Player {
     }
 
     public void repositionPlayer(int x, int y) {
+        dead = false;
         this.x = x;
         this.y = y;
     }
@@ -45,6 +47,8 @@ public class Player {
      * Draws the player on the screen, including an arrow that makes the player's direction apparent.
      */
     public void drawPlayer(Graphics g) {
+        if (dead) return;
+
         int xPx = x * GamePanel.UNIT_SIZE;
         int yPx = y * GamePanel.UNIT_SIZE;
 
@@ -75,15 +79,17 @@ public class Player {
     }
 
     public void movePlayer() {
-        if (isColliding()) return;
-
-        switch (direction) {
-            case UP -> y--;
-            case DOWN -> y++;
-            case LEFT -> x--;
-            case RIGHT -> x++;
+        if (!isColliding()) {
+            gamePanel.objects[y][x] = 0;
+            switch (direction) {
+                case UP -> y--;
+                case DOWN -> y++;
+                case LEFT -> x--;
+                case RIGHT -> x++;
+            }
         }
         checkVictory();
+
         gamePanel.objects[y][x] = 3;
     }
 
@@ -113,6 +119,7 @@ public class Player {
      * Gets correct player position from the objects 2D array.
      */
     public void getPositionFromArray() {
+        dead = false;
         direction = directions.RIGHT;
         for (int i = 0; i < gamePanel.objects.length; i++) {
             for (int j = 0; j < gamePanel.objects[i].length; j++) {
@@ -155,6 +162,13 @@ public class Player {
             gamePanel.stop();
             gamePanel.increaseLevel();
             gamePanel.loadLevel();
+        }
+    }
+
+    public void checkDeath() {
+        if (gamePanel.objects[y][x] == 5) {
+            gamePanel.stop();
+            dead = true;
         }
     }
 
