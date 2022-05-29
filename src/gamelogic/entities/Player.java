@@ -113,6 +113,7 @@ public class Player {
 
     public void shoot() {
         gamePanel.setBullet(new Bullet(x, y, direction, gamePanel));
+        gamePanel.getBullet().move();
     }
 
     /**

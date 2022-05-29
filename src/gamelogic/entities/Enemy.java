@@ -63,7 +63,6 @@ public class Enemy {
 
         if (isColliding()) {
             turnRight();
-            checkForBullets();
             return;
         }
 
@@ -76,7 +75,6 @@ public class Enemy {
         }
         steppedOn = gamePanel.objects[y][x];
         gamePanel.objects[y][x] = 5;
-        checkForBullets();
     }
 
     public boolean isColliding() {

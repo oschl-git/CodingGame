@@ -123,7 +123,10 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (gameWindow.codeManager.getCommandArray().size() <= tick && bullet == null) stop();
 
+        if (bullet != null) bullet.move();
+
         for (Enemy enemy: enemies) {
+            enemy.checkForBullets();
             enemy.move();
         }
 
@@ -132,8 +135,6 @@ public class GamePanel extends JPanel implements ActionListener {
         if (gameRunning && gameWindow.codeManager.getCommandArray().size() > tick) {
             gameWindow.codeManager.executeCommand(tick);
         }
-
-        if (bullet != null) bullet.move();
 
         repaint();
         tick++;
