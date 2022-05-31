@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class is the root of all game elements and displays the game.
@@ -34,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public int[][] objects;
     Timer timer = new Timer(moveDelay, this);
 
-    int level = 1;
+    int level = 4;
     int tick = 0;
     boolean gameRunning = false;
 
@@ -91,6 +90,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void loadLevel() {
         enemies.clear();
+        bullet = null;
         objects = levelLoader.readLevelFile(level);
         player.getPositionFromArray();
         objectManager.getEnemiesFromArray();
@@ -125,9 +125,10 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (bullet != null) bullet.move();
 
-        for (Enemy enemy: enemies) {
-            enemy.checkForBullets();
+        if (bullet != null) bullet.printCoordinate();
+        for (Enemy enemy : enemies) {
             enemy.move();
+            enemy.checkForBullets();
         }
 
         player.checkDeath();
@@ -151,7 +152,7 @@ public class GamePanel extends JPanel implements ActionListener {
         objectManager.drawObjects(g);
         player.drawPlayer(g);
         if (bullet != null) bullet.draw(g);
-        for (Enemy enemy: enemies) {
+        for (Enemy enemy : enemies) {
             enemy.draw(g);
         }
     }

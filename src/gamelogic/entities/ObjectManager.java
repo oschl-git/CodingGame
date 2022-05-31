@@ -79,6 +79,12 @@ public class ObjectManager {
                 y * GamePanel.getUnitSize() + 29);
     }
 
+    /**
+     * Draws a breakable wall on the game panel.
+     *
+     * @param x desired x coordinate
+     * @param y desired y coordinate
+     */
     public void drawBreakableWall(Graphics g, int x, int y) {
         drawWall(g, x, y);
         Graphics2D g2D = (Graphics2D) g;
@@ -110,17 +116,33 @@ public class ObjectManager {
                 y * GamePanel.getUnitSize() + 14);
     }
 
+    /**
+     * Draws an orange square on the position where player started.
+     *
+     * @param x desired x coordinate
+     * @param y desired y coordinate
+     */
     public void drawStart(Graphics g, int x, int y) {
         g.setColor(Color.orange);
         g.drawRect(x * GamePanel.getUnitSize(), y * GamePanel.getUnitSize(),
                 GamePanel.getUnitSize(), GamePanel.getUnitSize());
     }
 
+    /**
+     * Draws a green square on the position of the level goal.
+     *
+     * @param x desired x coordinate
+     * @param y desired y coordinate
+     */
     public void drawGoal(Graphics g, int x, int y) {
         g.setColor(Color.green);
         g.drawRect(x * GamePanel.getUnitSize(), y * GamePanel.getUnitSize(),
                 GamePanel.getUnitSize(), GamePanel.getUnitSize());
     }
+
+    /**
+     * Gets all enemies from the objects 2D array and adds them to the Enemies arraylist.
+     */
     public void getEnemiesFromArray() {
         for (int i = 0; i < gamePanel.objects.length; i++) {
             for (int j = 0; j < gamePanel.objects[i].length; j++) {

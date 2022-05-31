@@ -111,9 +111,15 @@ public class Player {
         }
     }
 
+    /**
+     * Creates a new bullet if no bullet currently exists.
+     */
     public void shoot() {
-        gamePanel.setBullet(new Bullet(x, y, direction, gamePanel));
-        gamePanel.getBullet().move();
+        if (gamePanel.getBullet() == null) {
+            gamePanel.setBullet(new Bullet(x, y, direction, gamePanel));
+            gamePanel.getBullet().move();
+        }
+
     }
 
     /**

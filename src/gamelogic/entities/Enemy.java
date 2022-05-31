@@ -4,6 +4,9 @@ import gui.GamePanel;
 
 import java.awt.*;
 
+/**
+ * This is the enemy class.
+ */
 public class Enemy {
     int x = 0;
     int y = 0;
@@ -12,12 +15,17 @@ public class Enemy {
     int steppedOn = 0;
     boolean dead = false;
 
+    //region Constructors, getters, setters
     public Enemy(int x, int y, GamePanel gamePanel) {
         this.x = x;
         this.y = y;
         this.gamePanel = gamePanel;
     }
+    //endregion
 
+    /**
+     * Draws the enemy on the screen if it's not dead.
+     */
     public void draw(Graphics g) {
         if (dead) return;
 
@@ -58,6 +66,9 @@ public class Enemy {
         }
     }
 
+    /**
+     * Moves the enemy if it's not dead.
+     */
     public void move() {
         if (dead) return;
 
@@ -77,6 +88,11 @@ public class Enemy {
         gamePanel.objects[y][x] = 5;
     }
 
+    /**
+     * Checks collision with walls.
+     *
+     * @return true if colliding, false if not
+     */
     public boolean isColliding() {
         switch (direction) {
             case UP -> {
@@ -95,6 +111,9 @@ public class Enemy {
         return false;
     }
 
+    /**
+     * Turns the enemy right.
+     */
     public void turnRight() {
         switch (direction) {
             case UP -> direction = Player.directions.RIGHT;
@@ -104,6 +123,9 @@ public class Enemy {
         }
     }
 
+    /**
+     * Checks if any bullets hit the enemy.
+     */
     public void checkForBullets() {
         if (gamePanel.getBullet() == null) return;
         if (gamePanel.getBullet().getX() == this.x && gamePanel.getBullet().getY() == this.y) {
@@ -111,6 +133,10 @@ public class Enemy {
             dead = true;
             gamePanel.removeBullet();
         }
+    }
+
+    public void printCoordinate() {
+        System.out.println("Enemy: " + x + " " + y);
     }
 }
 

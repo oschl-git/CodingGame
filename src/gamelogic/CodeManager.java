@@ -1,7 +1,6 @@
 package gamelogic;
 
 import gamelogic.entities.Player;
-import gui.GamePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -14,7 +13,10 @@ import java.util.regex.Pattern;
 public class CodeManager {
     Player player;
     JTextPane commandField;
-    enum commandTypes {WALK, TURN_RIGHT, TURN_LEFT, SHOOT, WAIT, NEW_LINE};
+
+    enum commandTypes {WALK, TURN_RIGHT, TURN_LEFT, SHOOT, WAIT, NEW_LINE}
+
+    ;
     ArrayList<commandTypes> commands = new ArrayList<commandTypes>();
 
     //region Constructors, getters, setters
@@ -28,6 +30,11 @@ public class CodeManager {
     }
     //endregion
 
+    /**
+     * Executes a single command
+     *
+     * @param i index of command from the commands ArrayList
+     */
     public void executeCommand(int i) {
         switch (commands.get(i)) {
             case WALK -> player.movePlayer();
@@ -36,8 +43,8 @@ public class CodeManager {
             case SHOOT -> player.shoot();
         }
 
-        if ((i+2 < commands.size() && (commands.get(i+1) == commandTypes.NEW_LINE))) {
-            commands.remove(i+1);
+        if ((i + 2 < commands.size() && (commands.get(i + 1) == commandTypes.NEW_LINE))) {
+            commands.remove(i + 1);
         }
     }
 
