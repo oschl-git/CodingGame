@@ -127,16 +127,12 @@ public class Enemy {
      * Checks if any bullets hit the enemy.
      */
     public void checkForBullets() {
-        if (gamePanel.getBullet() == null) return;
+        if (gamePanel.getBullet() == null || dead == true) return;
         if (gamePanel.getBullet().getX() == this.x && gamePanel.getBullet().getY() == this.y) {
             gamePanel.objects[y][x] = steppedOn;
             dead = true;
             gamePanel.removeBullet();
         }
-    }
-
-    public void printCoordinate() {
-        System.out.println("Enemy: " + x + " " + y);
     }
 }
 

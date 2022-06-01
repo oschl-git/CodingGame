@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public int[][] objects;
     Timer timer = new Timer(moveDelay, this);
 
-    int level = 4;
+    int level = 7;
     int tick = 0;
     boolean gameRunning = false;
 
@@ -125,8 +125,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (bullet != null) bullet.move();
 
-        if (bullet != null) bullet.printCoordinate();
         for (Enemy enemy : enemies) {
+            enemy.checkForBullets();
             enemy.move();
             enemy.checkForBullets();
         }

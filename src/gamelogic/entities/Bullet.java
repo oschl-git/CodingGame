@@ -73,8 +73,4 @@ public class Bullet {
         }
         return false;
     }
-
-    public void printCoordinate() {
-        System.out.println("Bullet: " + x + " " + y);
-    }
 }

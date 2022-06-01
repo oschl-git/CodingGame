@@ -89,7 +89,7 @@ public class Player {
             }
         }
         checkVictory();
-
+        checkDeath();
         gamePanel.objects[y][x] = 3;
     }
 
