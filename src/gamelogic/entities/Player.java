@@ -13,7 +13,7 @@ public class Player {
     directions direction = directions.RIGHT;
     boolean dead = false;
 
-    public static enum directions {UP, DOWN, LEFT, RIGHT}
+    public enum directions {UP, DOWN, LEFT, RIGHT}
 
     GamePanel gamePanel;
     ObjectManager objectManager;
@@ -78,6 +78,9 @@ public class Player {
         }
     }
 
+    /**
+     * Moves the player in the direction its facing.
+     */
     public void movePlayer() {
         if (!isColliding()) {
             gamePanel.objects[y][x] = 0;
@@ -93,6 +96,9 @@ public class Player {
         gamePanel.objects[y][x] = 3;
     }
 
+    /**
+     * Turns the player right.
+     */
     public void turnRight() {
         switch (direction) {
             case UP -> direction = directions.RIGHT;
@@ -102,6 +108,9 @@ public class Player {
         }
     }
 
+    /**
+     * Turns the player left.
+     */
     public void turnLeft() {
         switch (direction) {
             case UP -> direction = directions.LEFT;
@@ -112,7 +121,7 @@ public class Player {
     }
 
     /**
-     * Creates a new bullet if no bullet currently exists.
+     * Creates a new bullet if gamePanel.bullet == null.
      */
     public void shoot() {
         if (gamePanel.getBullet() == null) {
@@ -164,19 +173,29 @@ public class Player {
         return false;
     }
 
+    /**
+     * Checks if player position is the same as the level goal, if so, shows the level completed dialog and then
+     * reacts accordingly to what user chooses.
+     */
     public void checkVictory() {
         if (gamePanel.objects[y][x] == 4) {
+            int playerInput = gamePanel.getGameWindow().showLevelCompletedDialog();
+            if (playerInput == 1) {
+                gamePanel.increaseLevel();
+                gamePanel.getGameWindow().resetCommandField();
+            }
             gamePanel.stop();
-            gamePanel.increaseLevel();
             gamePanel.loadLevel();
         }
     }
 
+    /**
+     * Checks if player touched an enemy, if so, stops the game.
+     */
     public void checkDeath() {
         if (gamePanel.objects[y][x] == 5) {
             gamePanel.stop();
             dead = true;
         }
     }
-
 }

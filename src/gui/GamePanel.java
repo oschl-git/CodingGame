@@ -22,20 +22,18 @@ public class GamePanel extends JPanel implements ActionListener {
     static final int WIDTH_PX = WIDTH * UNIT_SIZE;
     static final int HEIGHT_PX = HEIGHT * UNIT_SIZE;
 
-
     int moveDelay;
     GameWindow gameWindow;
     ObjectManager objectManager = new ObjectManager(this);
     Player player = new Player(this, objectManager);
     Bullet bullet = null;
-    ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-    LevelLoader levelLoader = new LevelLoader();
+    ArrayList<Enemy> enemies = new ArrayList<>();
+    LevelLoader levelLoader;
     public int[][] objects;
     Timer timer = new Timer(moveDelay, this);
-
-    int level = 7;
-    int tick = 0;
     boolean gameRunning = false;
+    int level = 1;
+    int tick = 0;
 
     //region Constructors, getters, setters
     public GamePanel() {
@@ -44,14 +42,6 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public static int getUnitSize() {
         return UNIT_SIZE;
-    }
-
-    public static int getW() {
-        return WIDTH;
-    }
-
-    public static int getH() {
-        return HEIGHT;
     }
 
     public Player getPlayer() {
@@ -64,6 +54,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void setGameWindow(GameWindow gameWindow) {
         this.gameWindow = gameWindow;
+        this.levelLoader = new LevelLoader(gameWindow);
+    }
+
+    public GameWindow getGameWindow() {
+        return gameWindow;
     }
 
     public Bullet getBullet() {
@@ -86,8 +81,15 @@ public class GamePanel extends JPanel implements ActionListener {
         level++;
     }
 
+    public void resetLevel() {
+        level = 1;
+    }
+
     //endregion
 
+    /**
+     * Resets everything so a new level can be correctly loaded, loads a new level.
+     */
     public void loadLevel() {
         enemies.clear();
         bullet = null;
@@ -97,6 +99,9 @@ public class GamePanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    /**
+     * Starts the game (called when player presses "execute" button).
+     */
     public void startRound() {
         loadLevel();
         tick = 0;
@@ -106,6 +111,9 @@ public class GamePanel extends JPanel implements ActionListener {
         timer.restart();
     }
 
+    /**
+     * Stops the game.
+     */
     public void stop() {
         gameRunning = false;
         timer.stop();
@@ -165,5 +173,4 @@ public class GamePanel extends JPanel implements ActionListener {
         for (int i = 0; i < WIDTH; i++) g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, HEIGHT_PX);
         for (int i = 0; i < HEIGHT; i++) g.drawLine(0, i * UNIT_SIZE, WIDTH_PX, i * UNIT_SIZE);
     }
-
 }

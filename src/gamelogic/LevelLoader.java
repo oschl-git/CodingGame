@@ -1,6 +1,9 @@
 package gamelogic;
 
+import gui.GameWindow;
+
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -9,6 +12,13 @@ import java.io.IOException;
  */
 public class LevelLoader {
     final public static String LEVEL_PATH = "levels/X.txt";
+    GameWindow gameWindow;
+
+    //region Constructors, getters, setters
+    public LevelLoader(GameWindow gameWindow) {
+        this.gameWindow = gameWindow;
+    }
+    //endregion
 
     /**
      * This method loads a specific level.
@@ -30,6 +40,9 @@ public class LevelLoader {
                 i++;
             }
 
+        } catch (FileNotFoundException e) {
+            gameWindow.showGameCompletedDialog();
+            System.exit(0);
         } catch (IOException e) {
             e.printStackTrace();
         }

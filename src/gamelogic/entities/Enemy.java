@@ -8,8 +8,8 @@ import java.awt.*;
  * This is the enemy class.
  */
 public class Enemy {
-    int x = 0;
-    int y = 0;
+    int x;
+    int y;
     Player.directions direction = Player.directions.RIGHT;
     GamePanel gamePanel;
     int steppedOn = 0;
@@ -84,7 +84,10 @@ public class Enemy {
             case LEFT -> x--;
             case RIGHT -> x++;
         }
-        steppedOn = gamePanel.objects[y][x];
+
+        if (gamePanel.objects[y][x] != 5) steppedOn = gamePanel.objects[y][x];
+        else steppedOn = 0;
+
         gamePanel.objects[y][x] = 5;
     }
 
@@ -127,7 +130,7 @@ public class Enemy {
      * Checks if any bullets hit the enemy.
      */
     public void checkForBullets() {
-        if (gamePanel.getBullet() == null || dead == true) return;
+        if (gamePanel.getBullet() == null || dead) return;
         if (gamePanel.getBullet().getX() == this.x && gamePanel.getBullet().getY() == this.y) {
             gamePanel.objects[y][x] = steppedOn;
             dead = true;
@@ -135,5 +138,3 @@ public class Enemy {
         }
     }
 }
-
-

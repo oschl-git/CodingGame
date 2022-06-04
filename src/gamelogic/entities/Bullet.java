@@ -13,7 +13,6 @@ public class Bullet {
     Player.directions direction;
     GamePanel gamePanel;
 
-
     //region Constructors, getters, setters
 
     public Bullet(int x, int y, Player.directions direction, GamePanel gamePanel) {
@@ -32,6 +31,9 @@ public class Bullet {
     }
     //endregion
 
+    /**
+     * Moves the bullet in the direction it's facing.
+     */
     public void move() {
         switch (direction) {
             case UP -> y--;

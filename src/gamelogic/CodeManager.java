@@ -16,8 +16,7 @@ public class CodeManager {
 
     enum commandTypes {WALK, TURN_RIGHT, TURN_LEFT, SHOOT, WAIT, NEW_LINE}
 
-    ;
-    ArrayList<commandTypes> commands = new ArrayList<commandTypes>();
+    ArrayList<commandTypes> commands = new ArrayList<>();
 
     //region Constructors, getters, setters
     public CodeManager(Player player, JTextPane commandField) {
@@ -53,7 +52,7 @@ public class CodeManager {
      */
     public void getCommands() {
         String[] input = commandField.getText().split("\\r?\\n");
-        ArrayList<commandTypes> output = new ArrayList<commandTypes>();
+        ArrayList<commandTypes> output = new ArrayList<>();
 
         for (String command : input) {
             commandTypes singleCommand = null;
